@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router";
 import Card from "../components/Card";
 import Hero from "../components/Hero";
-import futsals from "../data/futsals";
+
+import { useGetFutsalsQuery } from "../redux/api/futsal";
 
 const Futsal = () => {
   const navigate = useNavigate();
+  const { data, isLoading } = useGetFutsalsQuery();
+
+  const futsals = data?.data;
 
   const handleBookNow = (id: number) => {
     navigate(`/booking/${id}`);
   };
+
   return (
     <>
       <Hero
@@ -17,19 +22,23 @@ const Futsal = () => {
         paragraph="Explore futsal courts available near you. Book your favorite
               court easily and get on the field faster!"
       />
-      <div className="flex flex-wrap justify-around">
-        {futsals.map((futsal) => {
-          return (
-            <Card
-              key={futsal.id}
-              img={futsal.img}
-              name={futsal.name}
-              location={futsal.location}
-              onBook={() => handleBookNow(futsal.id)}
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <span className="loading loading-spinner loading-xl text-black"></span>
+      ) : (
+        <div className="flex flex-wrap justify-around">
+          {futsals?.map((futsal) => {
+            return (
+              <Card
+                key={futsal.id}
+                img={futsal.img}
+                name={futsal.name}
+                location={futsal.location}
+                onBook={() => handleBookNow(Number(futsal.id))}
+              />
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };

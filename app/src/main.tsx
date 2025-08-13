@@ -11,7 +11,8 @@ import {
 import Home from "./views/Home.tsx";
 import Futsal from "./views/Futsal.tsx";
 import Booking from "./views/Booking.tsx";
-
+import { ApiProvider } from "@reduxjs/toolkit/query/react";
+import baseApi from "./redux/api/base-api.ts";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -24,6 +25,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ApiProvider api={baseApi}>
+      <RouterProvider router={router} />
+    </ApiProvider>
   </StrictMode>
 );

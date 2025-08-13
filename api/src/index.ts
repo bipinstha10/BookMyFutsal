@@ -1,9 +1,13 @@
 import fastify from 'fastify'
 import futsals from './data/futsal.js'
+import cors from '@fastify/cors'
 
 const server = fastify()
+await server.register(cors, {
+ origin: ["http://localhost:5173"]
+})
 
-server.get('/', async (request, reply) => {
+server.get('/futsals', async (request, reply) => {
   reply.send({
     status: 200,
     message: "Success",
