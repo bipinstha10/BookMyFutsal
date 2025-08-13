@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+html, body {
+  background-color: #fff;
+  font-family: 'Roboto', sans-serif;
+}
+/* Wrapper to center the calendar */
+.calendar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;     /* Space from all sides */
+}
+
+/* PrimeReact Calendar Custom Dark Green Theme with Spacing */
+.p-datepicker {
+  background-color: #064e3b !important; /* Dark green */
+  color: #d1fae5 !important;
+  border-radius: 0.75rem;
+  padding: 1rem;
+
+  width: fit-content;    /* Shrink to fit content */
+  max-width: 90vw;       /* Responsive on small screens */
+}
+
+/* Keep table layout tidy and avoid overflow */
+.p-datepicker table {
+  table-layout: fixed;          /* Evenly distribute cell widths */
+  width: 100%;
+}
+
+.p-datepicker table td {
+  padding: 0.5rem !important;   /* Roomy cell spacing */
+}
+
+.p-datepicker table td > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+/* Selected date */
+.p-datepicker table td > span.p-highlight {
+  background: #22c55e !important; /* Green-500 */
+  color: #ffffff !important;
+}
+
+/* Hover effect */
+.p-datepicker table td > span:not(.p-disabled):hover {
+  background: #065f46 !important; /* Green-800 */
+  color: #bbf7d0 !important;      /* Light green text */
+}
+
+/* Today's date */
+.p-datepicker table td.p-datepicker-today > span {
+  border: 2px solid #22c55e !important; /* Green-500 border */
+  background: #065f46 !important;       /* Green-800 */
+  color: #bbf7d0 !important;
+}
+
+/* Weekday header */
+.p-datepicker table thead th {
+  background: #047857 !important; /* Green-700 */
+  color: #d1fae5 !important;       /* Mint text */
+}
+
+/* Navigation buttons */
+.p-datepicker .p-datepicker-prev,
+.p-datepicker .p-datepicker-next {
+  color: #d1fae5 !important;
+}
+
+.p-datepicker .p-datepicker-prev:hover,
+.p-datepicker .p-datepicker-next:hover {
+  background-color: #065f46 !important;
+  border-radius: 50%;
+}
