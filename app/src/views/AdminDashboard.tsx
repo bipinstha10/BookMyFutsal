@@ -1,101 +1,29 @@
 import { useState } from "react";
 import Card from "../components/Card";
-import futsalsData from "../data/futsals";
-import type { FutsalProps } from "../data/futsals";
+import FutsalForm from "./FutsalForm";
 
 const AdminDashboard = () => {
-  const [futsals, setFutsals] = useState<FutsalProps[]>(futsalsData);
-  const [editingFutsal, setEditingFutsal] = useState<FutsalProps | null>(null);
-  const [newFutsal, setNewFutsal] = useState<Omit<FutsalProps, "id">>({
-    img: "",
-    name: "",
-    location: "",
-  });
-
   // Add new futsal
-  const handleAdd = () => {
-    if (!newFutsal.name || !newFutsal.location || !newFutsal.img) {
-      return;
-    }
-    const nextId = futsals.length
-      ? Math.max(...futsals.map((f) => f.id)) + 1
-      : 1;
-    setFutsals([...futsals, { id: nextId, ...newFutsal }]);
-    setNewFutsal({ img: "", name: "", location: "" });
-  };
+  const handleAdd = () => {};
 
   // Delete futsal
-  const handleDelete = (id: number) => {
-    setFutsals(futsals.filter((f) => f.id !== id));
-    if (editingFutsal?.id === id) {
-      setEditingFutsal(null);
-    }
-  };
+  const handleDelete = () => {};
 
   // Start editing
-  const handleEdit = (futsal: FutsalProps) => {
-    setEditingFutsal(futsal);
-  };
+  const handleEdit = () => {};
 
   // Save edited futsal
-  const handleSaveEdit = () => {
-    if (!editingFutsal) {
-      return;
-    }
-    setFutsals(
-      futsals.map((f) => (f.id === editingFutsal.id ? editingFutsal : f))
-    );
-    setEditingFutsal(null);
-  };
+  const handleSaveEdit = () => {};
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
       {/* Add New Futsal */}
-      <div className="mb-8 p-4 border rounded shadow bg-white">
-        <h2 className="text-xl text-green-700 font-semibold mb-4">
-          Add New Futsal
-        </h2>
-        <div className="flex flex-col gap-3">
-          <input
-            type="text"
-            placeholder="Name"
-            value={newFutsal.name}
-            onChange={(e) =>
-              setNewFutsal({ ...newFutsal, name: e.target.value })
-            }
-            className="border px-3 py-2 rounded w-full placeholder-gray-700 text-black"
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={newFutsal.location}
-            onChange={(e) =>
-              setNewFutsal({ ...newFutsal, location: e.target.value })
-            }
-            className="border px-3 py-2 rounded w-full placeholder-gray-700 text-black"
-          />
-          <input
-            type="text"
-            placeholder="Image URL"
-            value={newFutsal.img}
-            onChange={(e) =>
-              setNewFutsal({ ...newFutsal, img: e.target.value })
-            }
-            className="border px-3 py-2 rounded w-full placeholder-gray-700 text-black"
-          />
-          <button
-            onClick={handleAdd}
-            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-500 transition"
-          >
-            Add Futsal
-          </button>
-        </div>
-      </div>
+      <FutsalForm />
 
       {/* Futsal List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {futsals.map((f) =>
           editingFutsal?.id === f.id ? (
             <div
@@ -150,7 +78,7 @@ const AdminDashboard = () => {
           ) : (
             <Card
               key={f.id}
-              img={f.img}
+              imageURL={f.imageURL}
               name={f.name}
               location={f.location}
               adminActions={
@@ -172,7 +100,7 @@ const AdminDashboard = () => {
             />
           )
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
