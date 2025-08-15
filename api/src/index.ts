@@ -1,5 +1,4 @@
 import fastify from 'fastify'
-import futsals from './data/futsal.js'
 import cors from '@fastify/cors'
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
@@ -20,6 +19,17 @@ server.get('/futsals', async (request, reply) => {
     status: 200,
     message: "Success",
     data: futsals
+  })
+})
+
+server.post('/futsals', async (request, reply) => {
+  const futsalInput = request.body as typeof futsalsTable.$inferInsert;
+  const futsal = await db.insert(futsalsTable).values(futsalInput).returning();
+
+  reply.code(201).send({
+    status: 201,
+    message: "Futsal created successfully.",
+    data: futsal
   })
 })
 
