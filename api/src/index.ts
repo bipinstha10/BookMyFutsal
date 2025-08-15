@@ -1,7 +1,10 @@
 import fastify from 'fastify'
 import futsals from './data/futsal.js'
 import cors from '@fastify/cors'
+import 'dotenv/config';
+import { drizzle } from 'drizzle-orm/node-postgres';
 
+const db = drizzle(process.env.DATABASE_URL!);
 const server = fastify()
 await server.register(cors, {
  origin: ["http://localhost:5173"]
