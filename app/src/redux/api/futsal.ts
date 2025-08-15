@@ -16,7 +16,8 @@ export const futsalApi = baseApi.injectEndpoints({
         return {
           url,
         };
-      }
+      },
+      providesTags: ["futsals"]
     }),
 
     postFutsals: build.mutation<FutsalResponse, FutsalInput>({
@@ -28,9 +29,22 @@ export const futsalApi = baseApi.injectEndpoints({
           method: "POST",
           body: futsalInput
         };
-      }
+      },
+      invalidatesTags: ["futsals"]
+    }),
+
+      deleteFutsal: build.mutation<FutsalResponse, number>({
+      query: (id) => {
+        const url = `futsals/${id}`;
+
+        return {
+          url,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["futsals"]
     })
   })
 });
 
-export const { useGetFutsalsQuery, usePostFutsalsMutation } = futsalApi;
+export const { useGetFutsalsQuery, usePostFutsalsMutation, useDeleteFutsalMutation } = futsalApi;

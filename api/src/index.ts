@@ -9,7 +9,9 @@ async function main() {
   const db = drizzle(process.env.DATABASE_URL!);
 const server = fastify()
 await server.register(cors, {
- origin: ["http://localhost:5173"]
+ origin: ["http://localhost:5173"],
+  methods: ["GET", "POST", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 })
 
 server.get('/futsals', async (request, reply) => {
@@ -29,6 +31,20 @@ server.post('/futsals', async (request, reply) => {
   reply.code(201).send({
     status: 201,
     message: "Futsal created successfully.",
+    data: futsal
+  })
+})
+
+server.delete('/futsals/:id', async (request, reply) => {
+  console.log("#############")
+  const { id } = request.params as {id:string};
+    const numericId = Number(id);
+
+  const futsal = await db.delete(futsalsTable).where(eq(futsalsTable.id, numericId)).returning();
+
+  reply.code(200).send({
+    status: 200,
+    message: "Futsal deleted successfully.",
     data: futsal
   })
 })

@@ -12,6 +12,7 @@ export default function FutsalForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FutsalInput>();
   const onSubmit: SubmitHandler<FutsalInput> = async (futsal) => {
@@ -21,8 +22,9 @@ export default function FutsalForm() {
 
     if (data?.status === 201) {
       toast.success(data.message);
-      navigate("/futsal");
+      // navigate("/futsal");
     }
+    reset();
   };
 
   return (
@@ -52,7 +54,7 @@ export default function FutsalForm() {
           />
           <button
             type="submit"
-            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-500 transition"
+            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-500 transition cursor-pointer"
           >
             Add Futsal
           </button>
