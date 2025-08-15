@@ -1,15 +1,21 @@
 type CardProps = {
-  img: string;
+  imageURL: string;
   name: string;
   location: string;
   onBook?: () => void;
   adminActions?: React.ReactNode;
 };
-const Card = ({ img, name, location, onBook, adminActions }: CardProps) => {
+const Card = ({
+  imageURL,
+  name,
+  location,
+  onBook,
+  adminActions,
+}: CardProps) => {
   return (
     <div className="card bg-white text-base-100 w-full shadow-sm p-4">
       <figure className="w-full h-48 overflow-hidden">
-        <img src={img} alt={name} className="w-full h-full object-cover" />
+        <img src={imageURL} alt={name} className="w-full h-full object-cover" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{name}</h2>

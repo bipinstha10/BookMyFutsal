@@ -1,6 +1,6 @@
 import { integer, pgTable, varchar } from "drizzle-orm/pg-core";
 
-export const futsalTable = pgTable("futsals", {
+export const futsalsTable = pgTable("futsals", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   location: varchar({length: 255}).notNull(),

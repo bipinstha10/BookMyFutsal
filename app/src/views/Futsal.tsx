@@ -33,7 +33,7 @@ const Futsal = () => {
                 {/* controls card width */}
                 <Card
                   key={futsal.id}
-                  img={futsal.img}
+                  imageURL={futsal.imageURL}
                   name={futsal.name}
                   location={futsal.location}
                   onBook={() => handleBookNow(Number(futsal.id))}
