@@ -1,4 +1,4 @@
-type FutsalProps = {
+export type FutsalProps = {
   id: number;
   img: string;
   name: string;

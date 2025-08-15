@@ -79,3 +79,24 @@ html, body {
   background-color: #065f46 !important;
   border-radius: 50%;
 }
+
+/* Booking Slot Buttons */
+.slot-btn {
+  background-color: #064e3b;
+  color: #d1fae5;
+  border: 1px solid #047857;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.slot-btn:hover {
+  background-color: #065f46;
+  color: #bbf7d0;
+}
+
+.slot-btn.selected {
+  background-color: #22c55e;
+  color: #ffffff;
+  border: 2px solid #22c55e;
+}

@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router";
 import Form from "./Form";
 
 const Header = () => {
   const [showForm, setShowForm] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserRole("admin");
+  }, []);
+
+  const navClass = (isActive: boolean) =>
+    isActive
+      ? "text-yellow-200 font-semibold"
+      : "text-white hover:text-green-200 transition";
+
   return (
     <>
       <header className="shadow bg-green-700 absolute top-4 left-0 right-0 z-50 w-[90vw] rounded-xl mx-auto">
@@ -19,11 +30,7 @@ const Header = () => {
               <li>
                 <NavLink
                   to="/"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-yellow-200 font-semibold"
-                      : "text-white hover:text-green-900 transition"
-                  }
+                  className={({ isActive }) => navClass(isActive)}
                 >
                   Home
                 </NavLink>
@@ -31,15 +38,21 @@ const Header = () => {
               <li>
                 <NavLink
                   to="/futsal"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-yellow-200 font-semibold"
-                      : "text-white hover:text-green-900 transition"
-                  }
+                  className={({ isActive }) => navClass(isActive)}
                 >
                   Futsals
                 </NavLink>
               </li>
+              {userRole === "admin" && (
+                <li>
+                  <NavLink
+                    to="/admin"
+                    className={({ isActive }) => navClass(isActive)}
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+              )}
             </ul>
 
             {/* Login Link */}

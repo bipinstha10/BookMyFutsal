@@ -13,12 +13,15 @@ import Futsal from "./views/Futsal.tsx";
 import Booking from "./views/Booking.tsx";
 import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import baseApi from "./redux/api/base-api.ts";
+import AdminDashboard from "./views/AdminDashboard.tsx";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="" element={<Home />} />
       <Route path="futsal" element={<Futsal />} />
       <Route path="booking/:id" element={<Booking />} />
+      <Route path="admin" element={<AdminDashboard />} />
     </Route>
   )
 );

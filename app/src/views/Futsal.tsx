@@ -25,18 +25,22 @@ const Futsal = () => {
       {isLoading ? (
         <span className="loading loading-spinner loading-xl text-black"></span>
       ) : (
-        <div className="flex flex-wrap justify-around">
-          {futsals?.map((futsal) => {
-            return (
-              <Card
-                key={futsal.id}
-                img={futsal.img}
-                name={futsal.name}
-                location={futsal.location}
-                onBook={() => handleBookNow(Number(futsal.id))}
-              />
-            );
-          })}
+        <div className="px-6 py-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 justify-items-center">
+            {futsals?.map((futsal) => (
+              <div className="w-full max-w-md">
+                {" "}
+                {/* controls card width */}
+                <Card
+                  key={futsal.id}
+                  img={futsal.img}
+                  name={futsal.name}
+                  location={futsal.location}
+                  onBook={() => handleBookNow(Number(futsal.id))}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </>
