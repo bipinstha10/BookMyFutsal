@@ -1,3 +1,4 @@
+import type { FutsalInput } from "../../types";
 import baseApi from "./base-api";
 
 interface FutsalResponse {
@@ -16,8 +17,20 @@ export const futsalApi = baseApi.injectEndpoints({
           url,
         };
       }
+    }),
+
+    postFutsals: build.mutation<FutsalResponse, FutsalInput>({
+      query: (futsalInput) => {
+        const url = "futsals";
+
+        return {
+          url,
+          method: "POST",
+          body: futsalInput
+        };
+      }
     })
   })
 });
 
-export const { useGetFutsalsQuery } = futsalApi;
+export const { useGetFutsalsQuery, usePostFutsalsMutation } = futsalApi;

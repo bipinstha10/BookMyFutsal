@@ -1,19 +1,29 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-
-type Inputs = {
-  name: string;
-  location: string;
-  imageURL: string;
-};
+import { useNavigate } from "react-router";
+import type { FutsalInput } from "../types";
+import { usePostFutsalsMutation } from "../redux/api/futsal";
+import { toast } from "react-toastify";
 
 export default function FutsalForm() {
+  const navigate = useNavigate();
+  const [createFutsal, { isLoading: isFutsalCreating }] =
+    usePostFutsalsMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) =>
-    console.log("futsal data", data);
+  } = useForm<FutsalInput>();
+  const onSubmit: SubmitHandler<FutsalInput> = async (futsal) => {
+    const createdFutsal = await createFutsal(futsal);
+
+    const { data } = createdFutsal;
+
+    if (data?.status === 201) {
+      toast.success(data.message);
+      navigate("/futsal");
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

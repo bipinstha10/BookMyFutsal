@@ -8,6 +8,7 @@ import {
   RouterProvider,
   Route,
 } from "react-router";
+import { ToastContainer } from "react-toastify";
 import Home from "./views/Home.tsx";
 import Futsal from "./views/Futsal.tsx";
 import Booking from "./views/Booking.tsx";
@@ -30,6 +31,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ApiProvider api={baseApi}>
       <RouterProvider router={router} />
+      <ToastContainer position="top-center" />
     </ApiProvider>
   </StrictMode>
 );
