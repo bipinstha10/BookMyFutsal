@@ -1,44 +1,32 @@
-import type { ReactNode } from "react";
+import React from "react";
 
-interface ModalProperties {
-  label: string;
-  header?: ReactNode;
-  message?: string;
-  footer?: string;
+interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 }
 
-const Modal = ({
-  label,
-  header,
-  message,
-  footer = "Close",
-}: ModalProperties) => {
+const Modal = ({ open, onClose, children }: ModalProps) => {
+  if (!open) {
+    return null;
+  } // render nothing when closed
+
   return (
-    <>
-      <button
-        className="btn"
-        onClick={() =>
-          (
-            document.getElementById("my_modal_1") as HTMLDialogElement
-          )?.showModal()
-        }
-      >
-        {label}
-      </button>
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">{header}</h3>
-          <p className="py-4">{message}</p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">{footer}</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
-    </>
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md relative">
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        >
+          ✕
+        </button>
+
+        {/* Content */}
+        <div className="p-6">{children}</div>
+      </div>
+    </div>
   );
 };
 
-export { Modal };
+export default Modal;

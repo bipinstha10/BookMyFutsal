@@ -3,7 +3,13 @@ import type { FutsalInput, FutsalUpdateInput } from "../types";
 import { usePostFutsalsMutation } from "../redux/api/futsal";
 import { toast } from "react-toastify";
 
-export default function FutsalForm({ futsal }: { futsal?: FutsalUpdateInput }) {
+export default function FutsalForm({
+  futsal,
+  onClose,
+}: {
+  futsal?: FutsalUpdateInput;
+  onClose: () => void;
+}) {
   const [createFutsal] = usePostFutsalsMutation();
 
   const {
@@ -12,11 +18,11 @@ export default function FutsalForm({ futsal }: { futsal?: FutsalUpdateInput }) {
     reset,
     // formState: { errors },
   } = useForm<FutsalInput>();
-  const onSubmit: SubmitHandler<FutsalInput> = async (futsal) => {
+  const onSubmit: SubmitHandler<FutsalInput> = async (futsalData) => {
     if (futsal) {
-      console.log(futsal);
+      console.log(futsalData);
     } else {
-      const createdFutsal = await createFutsal(futsal);
+      const createdFutsal = await createFutsal(futsalData);
 
       const { data } = createdFutsal;
 
@@ -26,6 +32,7 @@ export default function FutsalForm({ futsal }: { futsal?: FutsalUpdateInput }) {
       }
       reset();
     }
+    onClose();
   };
 
   return (
