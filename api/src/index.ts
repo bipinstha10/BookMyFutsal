@@ -36,7 +36,6 @@ server.post('/futsals', async (request, reply) => {
 })
 
 server.delete('/futsals/:id', async (request, reply) => {
-  console.log("#############")
   const { id } = request.params as {id:string};
     const numericId = Number(id);
 
@@ -48,6 +47,37 @@ server.delete('/futsals/:id', async (request, reply) => {
     data: futsal
   })
 })
+
+server.get('/futsals/:id', async (request, reply) => {
+  const { id } = request.params as {id:string};
+    const numericId = Number(id);
+
+  const futsal = await db.select().from(futsalsTable).where(eq(futsalsTable.id, numericId));
+
+  reply.code(200).send({
+    status: 200,
+    message: "Data fetched successfully.",
+    data: futsal[0]
+  })
+})
+
+server.put('/futsals/:id', async (request, reply) => {
+  const { id } = request.params as {id:string};
+  const numericId = Number(id);
+
+  const futsalInput = request.body as typeof futsalsTable.$inferInsert;
+
+  const futsal = await db.update(futsalsTable)
+  .set(futsalInput)
+  .where(eq(futsalsTable.id, numericId));;
+
+  reply.code(200).send({
+    status: 200,
+    message: "Futsal updated successfully.",
+    data: futsal
+  })
+})
+
 
 server.listen({ port: 4001 }, (err, address) => {
   if (err) {
