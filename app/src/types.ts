@@ -3,3 +3,6 @@ export type FutsalInput = {
   location: string;
   imageURL: string;
 };
+
+export type FutsalUpdateInput = Partial<FutsalInput>
+

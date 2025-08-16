@@ -1,37 +1,38 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router";
-import type { FutsalInput } from "../types";
+import type { FutsalInput, FutsalUpdateInput } from "../types";
 import { usePostFutsalsMutation } from "../redux/api/futsal";
 import { toast } from "react-toastify";
 
-export default function FutsalForm() {
-  const navigate = useNavigate();
-  const [createFutsal, { isLoading: isFutsalCreating }] =
-    usePostFutsalsMutation();
+export default function FutsalForm({ futsal }: { futsal?: FutsalUpdateInput }) {
+  const [createFutsal] = usePostFutsalsMutation();
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<FutsalInput>();
   const onSubmit: SubmitHandler<FutsalInput> = async (futsal) => {
-    const createdFutsal = await createFutsal(futsal);
+    if (futsal) {
+      console.log(futsal);
+    } else {
+      const createdFutsal = await createFutsal(futsal);
 
-    const { data } = createdFutsal;
+      const { data } = createdFutsal;
 
-    if (data?.status === 201) {
-      toast.success(data.message);
-      // navigate("/futsal");
+      if (data?.status === 201) {
+        toast.success(data.message);
+        // navigate("/futsal");
+      }
+      reset();
     }
-    reset();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-8 p-4 border rounded shadow bg-white">
         <h2 className="text-xl text-green-700 font-semibold mb-4">
-          Add New Futsal
+          {futsal ? `Edit ${futsal.name}` : "Add new futsal"}
         </h2>
         <div className="flex flex-col gap-3">
           <input
@@ -56,7 +57,7 @@ export default function FutsalForm() {
             type="submit"
             className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-500 transition cursor-pointer"
           >
-            Add Futsal
+            {futsal ? "Edit" : "Add"}
           </button>
         </div>
       </div>
