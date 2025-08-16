@@ -3,11 +3,17 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 const App = () => {
   return (
-    <>
-      <Header />
-      <Outlet />
-      <Footer />
-    </>
+    <div className="flex flex-col min-h-screen">
+      <div>
+        <Header />
+      </div>
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <div>
+        <Footer />
+      </div>
+    </div>
   );
 };
 
