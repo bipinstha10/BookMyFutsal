@@ -1,19 +1,26 @@
 import { useParams } from "react-router";
 import Hero from "../components/Hero";
-import futsals from "../data/futsals";
+import { useLazyGetFutsalQuery } from "../redux/api/futsal";
 
 import { Calendar } from "primereact/calendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Booking = () => {
-  const { id } = useParams<{ id: string }>();
-
-  const futsal = futsals.find((f) => f.id === Number(id));
-
   const [date, setDate] = useState<Date | null | undefined>(null);
-
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+
+  const { id } = useParams<{ id: string }>();
+
+  const [fetchData, { data }] = useLazyGetFutsalQuery();
+
+  useEffect(() => {
+    if (id) {
+      fetchData(id);
+    }
+  }, [id, fetchData]);
+
+  const futsal = data?.data;
 
   const handleDateChange = (e: any) => {
     const selected = e.value;
@@ -50,7 +57,7 @@ const Booking = () => {
   return (
     <>
       <Hero
-        img={futsal.img}
+        img={futsal.imageURL}
         heading1={futsal.name}
         paragraph={futsal.location}
       />
