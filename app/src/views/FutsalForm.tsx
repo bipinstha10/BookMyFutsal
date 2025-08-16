@@ -1,6 +1,9 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { FutsalInput, FutsalUpdateInput } from "../types";
-import { usePostFutsalsMutation } from "../redux/api/futsal";
+import {
+  usePostFutsalsMutation,
+  useUpdateFutsalsMutation,
+} from "../redux/api/futsal";
 import { toast } from "react-toastify";
 
 export default function FutsalForm({
@@ -11,16 +14,36 @@ export default function FutsalForm({
   onClose: () => void;
 }) {
   const [createFutsal] = usePostFutsalsMutation();
+  const [updateFutsal] = useUpdateFutsalsMutation();
 
+  console.log(futsal);
   const {
     register,
     handleSubmit,
     reset,
     // formState: { errors },
-  } = useForm<FutsalInput>();
+  } = useForm<FutsalInput>({
+    defaultValues: {
+      // name: futsal?.name,
+      // location: futsal?.location,
+      // imageURL: futsal?.imageURL,
+      ...futsal,
+    },
+  });
   const onSubmit: SubmitHandler<FutsalInput> = async (futsalData) => {
     if (futsal) {
-      console.log(futsalData);
+      console.log("first");
+      const updatedFutsal = await updateFutsal({
+        id: futsal.id,
+        futsalInput: futsalData,
+      });
+
+      const { data } = updatedFutsal;
+
+      if (data?.status === 200) {
+        toast.success(data.message);
+        // navigate("/futsal");
+      }
     } else {
       const createdFutsal = await createFutsal(futsalData);
 
@@ -30,8 +53,8 @@ export default function FutsalForm({
         toast.success(data.message);
         // navigate("/futsal");
       }
-      reset();
     }
+    reset();
     onClose();
   };
 

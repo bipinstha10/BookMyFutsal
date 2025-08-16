@@ -13,11 +13,11 @@ const Modal = ({ open, onClose, children }: ModalProps) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md relative">
+      <div className="bg-white  rounded-lg shadow-lg w-full max-w-md relative">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          className="btn btn-md text-xl btn-circle btn-ghost hover:bg-yellow-500 text-green-800 absolute right-2 top-2 border-none"
         >
           ✕
         </button>

@@ -1,15 +1,11 @@
-import type { FutsalInput } from "../../types";
+import type { Futsal, FutsalListResponse, FutsalResponse } from "../../types";
 import baseApi from "./base-api";
 
-interface FutsalResponse {
-  data: Record<string, string>[],
-  status: number,
-  message: string
-}
+
 
 export const futsalApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getFutsals: build.query<FutsalResponse, void>({
+    getFutsals: build.query<FutsalListResponse, void>({
       query: () =>{
         const url = "futsals";
 
@@ -20,7 +16,7 @@ export const futsalApi = baseApi.injectEndpoints({
       providesTags: ["futsals"]
     }),
 
-    getFutsal: build.query<FutsalResponse, number>({
+    getFutsal: build.query<FutsalResponse, string>({
       query: (id) => {
         const url = `futsals/${id}`;
 
@@ -31,13 +27,27 @@ export const futsalApi = baseApi.injectEndpoints({
       providesTags: ["futsal"]
     }),
 
-    postFutsals: build.mutation<FutsalResponse, FutsalInput>({
+    postFutsals: build.mutation<FutsalResponse, Futsal>({
       query: (futsalInput) => {
         const url = "futsals";
 
         return {
           url,
           method: "POST",
+          body: futsalInput
+        };
+      },
+      invalidatesTags: ["futsals"]
+    }),
+
+    updateFutsals: build.mutation<FutsalResponse, {id: string, futsalInput: Futsal}>({
+      query: ({id, futsalInput}) => {
+        const url = `futsals/${id}`;
+
+
+        return {
+          url,
+          method: "PUT",
           body: futsalInput
         };
       },
@@ -58,4 +68,4 @@ export const futsalApi = baseApi.injectEndpoints({
   })
 });
 
-export const { useGetFutsalsQuery, useLazyGetFutsalQuery, usePostFutsalsMutation, useDeleteFutsalMutation } = futsalApi;
+export const { useGetFutsalsQuery, useLazyGetFutsalQuery, usePostFutsalsMutation,useUpdateFutsalsMutation, useDeleteFutsalMutation } = futsalApi;

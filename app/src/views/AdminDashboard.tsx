@@ -16,10 +16,7 @@ const AdminDashboard = () => {
       <Modal open={open} onClose={() => setOpen(false)}>
         <FutsalForm onClose={() => setOpen(false)} />
       </Modal>
-      {/* Add New Futsal */}
-      {/* <FutsalForm /> */}
 
-      {/* Futsal List */}
       <FutsalActions />
     </div>
   );

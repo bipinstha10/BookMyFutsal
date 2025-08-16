@@ -2,7 +2,7 @@ import fastify from 'fastify'
 import cors from '@fastify/cors'
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { futsalsTable } from './db/schema.ts';
 
 async function main() {
@@ -10,12 +10,12 @@ async function main() {
 const server = fastify()
 await server.register(cors, {
  origin: ["http://localhost:5173"],
-  methods: ["GET", "POST", "DELETE", "OPTIONS"],
+  methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 })
 
 server.get('/futsals', async (request, reply) => {
-  const futsals = await db.select().from(futsalsTable);
+  const futsals = (await db.select().from(futsalsTable).orderBy(futsalsTable.name));
 
   reply.send({
     status: 200,
@@ -65,10 +65,11 @@ server.put('/futsals/:id', async (request, reply) => {
   const { id } = request.params as {id:string};
   const numericId = Number(id);
 
-  const futsalInput = request.body as typeof futsalsTable.$inferInsert;
+  const {name, location, imageURL} = request.body as typeof futsalsTable.$inferInsert;
+  
 
   const futsal = await db.update(futsalsTable)
-  .set(futsalInput)
+  .set({name, location, imageURL})
   .where(eq(futsalsTable.id, numericId)).returning();
 
   reply.code(200).send({
