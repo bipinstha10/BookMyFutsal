@@ -69,12 +69,12 @@ server.put('/futsals/:id', async (request, reply) => {
 
   const futsal = await db.update(futsalsTable)
   .set(futsalInput)
-  .where(eq(futsalsTable.id, numericId));;
+  .where(eq(futsalsTable.id, numericId)).returning();
 
   reply.code(200).send({
     status: 200,
     message: "Futsal updated successfully.",
-    data: futsal
+    data: futsal[0]
   })
 })
 
