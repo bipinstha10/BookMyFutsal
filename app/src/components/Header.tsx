@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, NavLink } from "react-router";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
+
 import Form from "./Form";
 
 const Header = () => {
   const [showForm, setShowForm] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(null);
 
-  useEffect(() => {
-    setUserRole("admin");
-  }, []);
 
   const navClass = (isActive: boolean) =>
     isActive
@@ -43,8 +46,8 @@ const Header = () => {
                   Futsals
                 </NavLink>
               </li>
-              {userRole === "admin" && (
-                <li>
+              <SignedIn>
+              <li>
                   <NavLink
                     to="/admin"
                     className={({ isActive }) => navClass(isActive)}
@@ -52,16 +55,17 @@ const Header = () => {
                     Dashboard
                   </NavLink>
                 </li>
-              )}
+            </SignedIn>
             </ul>
 
-            {/* Login Link */}
-            <button
-              onClick={() => setShowForm(true)}
-              className="text-white font-[Roboto] font-bold bg-green-900 px-4 py-2 rounded hover:bg-green-800 transition"
-            >
-              Log in
-            </button>
+            <SignedOut>
+              <span className="cusoror-pointer">
+              <SignInButton />
+              </span>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </nav>
       </header>
