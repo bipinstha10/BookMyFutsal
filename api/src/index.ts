@@ -15,7 +15,7 @@ await server.register(cors, {
 })
 
 server.get('/futsals', async (request, reply) => {
-  const futsals = (await db.select().from(futsalsTable).orderBy(futsalsTable.name));
+  const futsals = (await db.select().from(futsalsTable).orderBy(desc(futsalsTable.createdAt)));
 
   reply.send({
     status: 200,
