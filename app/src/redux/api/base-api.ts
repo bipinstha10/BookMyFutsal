@@ -5,7 +5,7 @@ export const baseApi = createApi({
   baseQuery: retry(fetchBaseQuery({baseUrl: "http://localhost:4001"}), {
     maxRetries: 3
   }),
-   tagTypes: ["futsals","futsal"],
+   tagTypes: ["futsals","futsal","slots","bookings"],
   endpoints: () => ({})
 });
 
