@@ -9,7 +9,7 @@ async function main() {
   const db = drizzle(process.env.DATABASE_URL!);
 const server = fastify()
 await server.register(cors, {
- origin: ["http://localhost:5173"],
+ origin: ["http://localhost:5173", "http://192.168.18.9:5173"],
   methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 })
@@ -78,6 +78,7 @@ server.put('/futsals/:id', async (request, reply) => {
     data: futsal[0]
   })
 })
+
 
 
 server.listen({ port: 4001 }, (err, address) => {
