@@ -15,10 +15,20 @@ import Booking from "./views/Booking.tsx";
 import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import baseApi from "./redux/api/base-api.ts";
 import AdminDashboard from "./views/AdminDashboard.tsx";
+import { ClerkProvider } from "@clerk/clerk-react";
+
+
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key");
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      <Route path="login" element={<Home />} />
+      <Route path="signup" element={<Home />} />
       <Route path="" element={<Home />} />
       <Route path="futsal" element={<Futsal />} />
       <Route path="booking/:id" element={<Booking />} />
@@ -29,9 +39,11 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
     <ApiProvider api={baseApi}>
       <RouterProvider router={router} />
       <ToastContainer position="top-center" />
     </ApiProvider>
+      </ClerkProvider>
   </StrictMode>
 );
