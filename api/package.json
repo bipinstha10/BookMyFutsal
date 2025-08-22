@@ -16,6 +16,7 @@
     "@fastify/cors": "^11.1.0",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.4",
+    "drizzle-seed": "^0.3.1",
     "fastify": "^5.5.0",
     "pg": "^8.16.3"
   },

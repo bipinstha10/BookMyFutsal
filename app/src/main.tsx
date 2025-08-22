@@ -16,8 +16,6 @@ import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import baseApi from "./redux/api/base-api.ts";
 import AdminDashboard from "./views/AdminDashboard.tsx";
 import { ClerkProvider } from "@clerk/clerk-react";
-
-
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
@@ -40,10 +38,10 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-    <ApiProvider api={baseApi}>
-      <RouterProvider router={router} />
-      <ToastContainer position="top-center" />
-    </ApiProvider>
-      </ClerkProvider>
+      <ApiProvider api={baseApi}>
+        <RouterProvider router={router} />
+        <ToastContainer position="top-center" />
+      </ApiProvider>
+    </ClerkProvider>
   </StrictMode>
 );

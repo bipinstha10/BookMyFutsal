@@ -4,7 +4,7 @@ import Header from "./components/Header";
 const App = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <div>
+      <div className="sticky top-0 left-0 z-50">
         <Header />
       </div>
       <main className="flex-1">

@@ -20,7 +20,7 @@ export const bookingsTable = pgTable("bookings", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   futsalId: integer("futsal_id")
     .notNull()
-    .references(() => futsalsTable.id),
+    .references(() => futsalsTable.id, {onDelete: "cascade"}),
   timeSlotId: integer("time_slot_id")
     .notNull()
     .references(() => timeSlotsTable.id),
