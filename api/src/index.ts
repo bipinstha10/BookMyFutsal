@@ -3,7 +3,7 @@ import cors from '@fastify/cors'
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { desc, eq, and } from 'drizzle-orm';
-import { futsalsTable, timeSlotsTable, bookingsTable } from './db/schema.ts';
+import { futsalsTable, timeSlotsTable, bookingsTable } from './db/schema';
 
 async function main() {
   const db = drizzle(process.env.DATABASE_URL!);
@@ -37,7 +37,9 @@ server.post('/futsals', async (request, reply) => {
 
 server.delete('/futsals/:id', async (request, reply) => {
   const { id } = request.params as {id:string};
-    const numericId = Number(id);
+  const numericId = Number(id);
+
+  // await db.delete(bookingsTable).where(eq(bookingsTable.futsalId, numericId));
 
   const futsal = await db.delete(futsalsTable).where(eq(futsalsTable.id, numericId)).returning();
 
