@@ -12,7 +12,6 @@ import Form from "./Form";
 const Header = () => {
   const [showForm, setShowForm] = useState(false);
 
-
   const navClass = (isActive: boolean) =>
     isActive
       ? "text-yellow-200 font-semibold"
@@ -47,7 +46,7 @@ const Header = () => {
                 </NavLink>
               </li>
               <SignedIn>
-              <li>
+                <li>
                   <NavLink
                     to="/admin"
                     className={({ isActive }) => navClass(isActive)}
@@ -55,12 +54,12 @@ const Header = () => {
                     Dashboard
                   </NavLink>
                 </li>
-            </SignedIn>
+              </SignedIn>
             </ul>
 
             <SignedOut>
               <span className="cusoror-pointer">
-              <SignInButton />
+                <SignInButton />
               </span>
             </SignedOut>
             <SignedIn>
