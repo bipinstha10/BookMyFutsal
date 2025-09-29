@@ -7,7 +7,7 @@ const App = () => {
       <div className="sticky top-0 left-0 z-50">
         <Header />
       </div>
-      <main className="flex-1">
+      <main className="flex-1 flex flex-col">
         <Outlet />
       </main>
       <div>

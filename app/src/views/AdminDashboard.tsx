@@ -6,7 +6,7 @@ import { useState } from "react";
 const AdminDashboard = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="flex-1 p-6 max-w-5xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       <div className="flex justify-end">
         <button className="btn btn-success" onClick={() => setOpen(true)}>

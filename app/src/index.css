@@ -1,8 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui";
 
-html, body {
-  background-color: #fff;
+html,
+body {
+  background-color: #0c0c0c;
   font-family: 'Roboto', sans-serif;
 }
 /* Wrapper to center the calendar */
@@ -10,7 +11,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;     /* Space from all sides */
+  padding: 2rem; /* Space from all sides */
 }
 
 /* PrimeReact Calendar Custom Dark Green Theme with Spacing */
@@ -20,18 +21,18 @@ html, body {
   border-radius: 0.75rem;
   padding: 1rem;
 
-  width: fit-content;    /* Shrink to fit content */
-  max-width: 90vw;       /* Responsive on small screens */
+  width: fit-content; /* Shrink to fit content */
+  max-width: 90vw; /* Responsive on small screens */
 }
 
 /* Keep table layout tidy and avoid overflow */
 .p-datepicker table {
-  table-layout: fixed;          /* Evenly distribute cell widths */
+  table-layout: fixed; /* Evenly distribute cell widths */
   width: 100%;
 }
 
 .p-datepicker table td {
-  padding: 0.5rem !important;   /* Roomy cell spacing */
+  padding: 0.5rem !important; /* Roomy cell spacing */
 }
 
 .p-datepicker table td > span {
@@ -52,20 +53,20 @@ html, body {
 /* Hover effect */
 .p-datepicker table td > span:not(.p-disabled):hover {
   background: #065f46 !important; /* Green-800 */
-  color: #bbf7d0 !important;      /* Light green text */
+  color: #bbf7d0 !important; /* Light green text */
 }
 
 /* Today's date */
 .p-datepicker table td.p-datepicker-today > span {
   border: 2px solid #22c55e !important; /* Green-500 border */
-  background: #065f46 !important;       /* Green-800 */
+  background: #065f46 !important; /* Green-800 */
   color: #bbf7d0 !important;
 }
 
 /* Weekday header */
 .p-datepicker table thead th {
   background: #047857 !important; /* Green-700 */
-  color: #d1fae5 !important;       /* Mint text */
+  color: #d1fae5 !important; /* Mint text */
 }
 
 /* Navigation buttons */
