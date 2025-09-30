@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <>
-      <header className={`shadow bg-green-700 absolute left-0 right-0 z-50 w-[90vw] rounded-xl mx-auto ${hidden ? "-translate-y-full top-0" : "translate-y-0 top-4"} duration-500 ease-in-out`}>
+      <header className={`shadow w-[100vw] h-[4.5rem] bg-green-700 ${hidden ? "-translate-y-full top-0" : "translate-y-0 top-4"} duration-500 ease-in-out`}>
         <Navbar />
       </header>
     </>

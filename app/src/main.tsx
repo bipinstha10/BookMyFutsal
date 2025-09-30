@@ -8,6 +8,7 @@ import "remixicon/fonts/remixicon.css";
 import Home from "./views/Home.tsx";
 import Futsal from "./views/Futsal.tsx";
 import Booking from "./views/Booking.tsx";
+import SignIn from "./views/SignIn.tsx";
 import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import baseApi from "./redux/api/base-api.ts";
 import AdminDashboard from "./views/AdminDashboard.tsx";
@@ -21,11 +22,12 @@ if (!PUBLISHABLE_KEY) {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="login" element={<Home />} />
-      <Route path="signup" element={<Home />} />
+      {/* <Route path="login" element={<Home />} />
+      <Route path="signup" element={<Home />} /> */}
       <Route path="" element={<Home />} />
       <Route path="futsal" element={<Futsal />} />
       <Route path="booking/:id" element={<Booking />} />
+      <Route path="signin" element={<SignIn />} />
       <Route path="admin" element={<AdminDashboard />} />
     </Route>
   )

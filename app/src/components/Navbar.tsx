@@ -1,22 +1,18 @@
 import { Link, NavLink } from "react-router";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import { useState } from "react";
-import Form from "./Form";
 
 const Navbar = () => {
-  const [showForm, setShowForm] = useState(false);
-
   const navClass = (isActive: boolean) => (isActive ? "text-yellow-200 font-semibold" : "text-white hover:text-green-200 transition");
 
   return (
-    <div>
-      <nav className="navbar container mx-auto px-4 py-2">
-        <div className="flex justify-between items-center w-full">
-          <Link to="/" className="flex items-center">
-            <span className="font-[Teko] text-2xl">BookMyFutsal</span>
+    <div className="w-full h-full flex items-center">
+      <nav className="w-[90vw] mx-auto flex justify-between">
+        <div className="left">
+          <Link to="/">
+            <h1 className="font-[Teko] text-4xl">BookMyFutsal</h1>
           </Link>
-
-          <ul className="flex space-x-6">
+        </div>
+        <div className="right">
+          <ul className="text-[15px] flex items-center gap-20">
             <li>
               <NavLink to="/" className={({ isActive }) => navClass(isActive)}>
                 Home
@@ -27,26 +23,17 @@ const Navbar = () => {
                 Futsals
               </NavLink>
             </li>
-            <SignedIn>
-              <li>
-                <NavLink to="/admin" className={({ isActive }) => navClass(isActive)}>
-                  Dashboard
-                </NavLink>
-              </li>
-            </SignedIn>
+            <li>
+              <NavLink to="/admin" className={({ isActive }) => navClass(isActive)}>
+                Dashboard
+              </NavLink>
+            </li>
+            <NavLink to="/signin">
+              <button className="btn bg-[#24cfa6] text-[15.4px] text-black px-6 py-2 border-0">Sign In</button>
+            </NavLink>
           </ul>
-
-          <SignedOut>
-            <button className="p-2 bg-[#63D0A6] text-black rounded">
-              <SignInButton />
-            </button>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
         </div>
       </nav>
-      {showForm && <Form onClose={() => setShowForm(false)} />}
     </div>
   );
 };
