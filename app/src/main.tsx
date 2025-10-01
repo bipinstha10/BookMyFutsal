@@ -2,13 +2,19 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+} from "react-router";
 import { ToastContainer } from "react-toastify";
 import "remixicon/fonts/remixicon.css";
 import Home from "./views/Home.tsx";
 import Futsal from "./views/Futsal.tsx";
 import Booking from "./views/Booking.tsx";
 import SignIn from "./views/SignIn.tsx";
+import SignUp from "./views/SignUp.tsx";
 import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import baseApi from "./redux/api/base-api.ts";
 import AdminDashboard from "./views/AdminDashboard.tsx";
@@ -28,6 +34,7 @@ const router = createBrowserRouter(
       <Route path="futsal" element={<Futsal />} />
       <Route path="booking/:id" element={<Booking />} />
       <Route path="signin" element={<SignIn />} />
+      <Route path="signup" element={<SignUp />} />
       <Route path="admin" element={<AdminDashboard />} />
     </Route>
   )
