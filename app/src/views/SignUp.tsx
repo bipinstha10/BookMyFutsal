@@ -1,41 +1,24 @@
 import Form from "../components/Form";
 import Divider from "../components/Divider";
-import { UserRoundPlus } from "lucide-react";
 import { Link } from "react-router";
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <div className="flex-1 mt-56 flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="items-left mb-10">
-          <h1 className="font-[teko] text-5xl mb-5">Sign In</h1>
-          {/* <div className="flex gap-8">
-            <p
-              onClick={() => setFormType("signin")}
-              className={`cursor-pointer ${
-                formType === "phone"
-                  ? "underline underline-offset-2 decoration-[#24cfa6]"
-                  : "text-gray-500"
-              }`}
-            >
-              Phone
-            </p>
-            <p
-              onClick={() => setFormType("email")}
-              className={`cursor-pointer ${
-                formType === "email"
-                  ? "underline underline-offset-2 decoration-[#24cfa6]"
-                  : "text-gray-500"
-              }`}
-            >
-              Email
-            </p>
-          </div> */}
+          <h1 className="font-[teko] text-5xl mb-5">Sign Up</h1>
+          <div className="flex gap-1">
+            <p>Already have an account?</p>
+            <Link to="/signin" className="text-blue-400">
+              Sign in
+            </Link>
+          </div>
         </div>
 
-        <Form type="signin" />
+        <Form type="signup" />
 
-        <Divider text="OR" />
+        <Divider text="Or" />
 
         <div className="flex flex-col gap-3">
           <button className="w-full cursor-pointer text-gray-300 border-1 border-gray-600 rounded-full py-4 flex items-center justify-center gap-8">
@@ -45,16 +28,10 @@ const SignIn = () => {
             ></img>
             <span>Continue with Google</span>
           </button>
-          <Link to="/signup">
-            <button className="w-full cursor-pointer text-gray-300 border-1 border-gray-600 rounded-full py-4 flex items-center justify-center gap-8">
-              <UserRoundPlus />
-              <span>Create a New Account</span>
-            </button>
-          </Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default SignIn;
+export default SignUp;
