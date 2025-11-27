@@ -1,4 +1,10 @@
-import type { User, UserListResponse, UserResponse } from "../../types";
+import type {
+  User,
+  UserListResponse,
+  UserLoginInput,
+  UserLoginResponse,
+  UserResponse,
+} from "../../types";
 import baseApi from "./base-api";
 
 export const userApi = baseApi.injectEndpoints({
@@ -38,6 +44,19 @@ export const userApi = baseApi.injectEndpoints({
       invalidatesTags: ["users"],
     }),
 
+    postUsersLogin: build.mutation<UserLoginResponse, UserLoginInput>({
+      query: (userLoginInput) => {
+        const url = "/users/login";
+
+        return {
+          url,
+          method: "POST",
+          body: userLoginInput,
+        };
+      },
+      invalidatesTags: [],
+    }),
+
     updateUsers: build.mutation<UserResponse, { id: string; userInput: User }>({
       query: ({ id, userInput }) => {
         const url = `users/${id}`;
@@ -71,4 +90,5 @@ export const {
   usePostUsersMutation,
   useUpdateUsersMutation,
   useDeleteUserMutation,
+  usePostUsersLoginMutation,
 } = userApi;

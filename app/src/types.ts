@@ -90,3 +90,12 @@ export type UserInput = {
   password: string;
   confirmPassword: string;
 };
+
+export type UserLoginResponse = {
+  status: number;
+  message: string;
+};
+export type UserLoginInput = {
+  email: string;
+  password: string;
+};

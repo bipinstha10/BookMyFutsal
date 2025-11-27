@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { Eye, EyeClosed } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { UserInput } from "../types";
+import type { UserInput, UserLoginInput } from "../types";
 
-import { usePostUsersMutation } from "../redux/api/user";
+import {
+  usePostUsersMutation,
+  usePostUsersLoginMutation,
+} from "../redux/api/user";
 
 import { toast } from "react-toastify";
 
@@ -13,8 +17,10 @@ type FormProps = {
 
 export default function Form({ type }: FormProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const [createUser] = usePostUsersMutation();
+  const [validUser] = usePostUsersLoginMutation();
 
   const {
     register,
@@ -25,14 +31,39 @@ export default function Form({ type }: FormProps) {
   } = useForm<UserInput>();
 
   const onSubmit: SubmitHandler<UserInput> = async (userData) => {
-    const createdUser = await createUser(userData);
+    try {
+      const response = await createUser(userData).unwrap();
 
-    const { data } = createdUser;
-
-    if (data?.status === 201) {
-      toast.success(data.message);
+      if (response.status === 201) {
+        toast.success(response.message);
+        navigate("/");
+        reset();
+      }
+    } catch (err: any) {
+      if ("status" in err && err.status === 409) {
+        toast.error("Email already registered");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     }
-    reset();
+  };
+
+  const onLogin: SubmitHandler<UserLoginInput> = async (userData) => {
+    try {
+      const response = await validUser(userData).unwrap();
+
+      if (response.status === 201) {
+        toast.success(response.message);
+        navigate("/");
+        reset();
+      }
+    } catch (err: any) {
+      if ("status" in err && err.status === 401) {
+        toast.error(err.data?.message ?? "Invalid Credentials.");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    }
   };
 
   return (
@@ -85,30 +116,22 @@ export default function Form({ type }: FormProps) {
             <p className="text-red-500 text-xs">{errors.phone.message}</p>
           )}
           <label className="text-sm text-[#9e9e9e]">Password *</label>
-          <div className="relative w-full">
-            <input
-              type={showPassword ? "text" : "password"}
-              className="text-sm w-full flex-9/10 bg-[#1e1e1e] border-0 outline-0 p-2 mb-6"
-              placeholder="Enter your password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-xs">{errors.password.message}</p>
-            )}
-            <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="cursor-pointer absolute top-2 right-2 flex items-center text-gray-400 hover:text-white"
-            >
-              {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
-            </button>
-          </div>
+          <input
+            type={showPassword ? "text" : "password"}
+            className="text-sm w-full flex-9/10 bg-[#1e1e1e] border-0 outline-0 p-2 mb-6"
+            placeholder="Enter your password"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
+          />
+          {errors.password && (
+            <p className="text-red-500 text-xs">{errors.password.message}</p>
+          )}
+
           <label className="text-sm text-[#9e9e9e]">Confirm Password *</label>
           <input
             type="password"
@@ -133,7 +156,7 @@ export default function Form({ type }: FormProps) {
           </button>
         </form>
       ) : (
-        <form className="flex flex-col">
+        <form onSubmit={handleSubmit(onLogin)} className="flex flex-col">
           <label className="text-sm text-[#9e9e9e]">Email address</label>
           <input
             type="email"
