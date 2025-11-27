@@ -23,9 +23,31 @@ async function userController(server: FastifyInstance) {
 
     return reply.code(201).send({
       status: 201,
-      message: "user registred successfully.",
+      message: "User registred successfully.",
       // data: user,
     });
+  });
+
+  server.post("/login", async (request, reply) => {
+    const userInput = request.body as typeof usersTable.$inferInsert;
+    console.log(userInput);
+
+    const user = await getUserByEmail(userInput.email);
+    console.log("user", user);
+
+    if (!user) {
+      return reply.code(401).send({
+        status: 401,
+        message: "User not found",
+      });
+    }
+
+    if (user.password !== userInput.password) {
+      return reply.code(401).send({
+        status: 401,
+        message: "Invalid password",
+      });
+    }
   });
 }
 
