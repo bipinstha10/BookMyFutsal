@@ -15,6 +15,7 @@ import { db } from "./db";
 
 import futsalController from "./modules/futsals/controllers";
 import userController from "./modules/users/controllers";
+import timeSlotController from "./modules/time-slots/controllers";
 
 async function main() {
   const server = fastify();
@@ -26,56 +27,8 @@ async function main() {
   });
 
   server.register(futsalController, { prefix: "futsals" });
-
+  server.register(timeSlotController, { prefix: "futsals" });
   server.register(userController, { prefix: "users" });
-  // -----------------------------
-  // TIME SLOTS & BOOKINGS
-  // -----------------------------
-
-  // Get available + booked time slots
-  server.get("/futsals/:id/slots", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const futsalId = Number(id);
-
-    const { date } = request.query as { date: string };
-    if (!date) {
-      return reply.code(400).send({
-        status: 400,
-        message: "Query parameter 'date' is required",
-        data: [],
-      });
-    }
-
-    const allSlots = await db.select().from(timeSlotsTable);
-
-    const bookedSlots = await db
-      .select()
-      .from(bookingsTable)
-      .where(
-        and(
-          eq(bookingsTable.futsalId, futsalId),
-          eq(bookingsTable.bookingDate, date)
-        )
-      );
-
-    const slotsWithStatus = allSlots.map((slot) => {
-      const booking = bookedSlots.find((b) => b.timeSlotId === slot.id);
-
-      return {
-        id: slot.id,
-        startTime: slot.startTime,
-        endTime: slot.endTime,
-        isBooked: Boolean(booking),
-        customerName: booking?.customerName ?? null,
-      };
-    });
-
-    reply.send({
-      status: 200,
-      message: "Slots fetched successfully",
-      data: slotsWithStatus,
-    });
-  });
 
   // Book a slot
   server.post("/futsals/:id/book", async (request, reply) => {
@@ -121,9 +74,6 @@ async function main() {
     });
   });
 
-  // -----------------------------
-  // Start Server
-  // -----------------------------
   server.listen({ port: 4001 }, (err, address) => {
     if (err) {
       console.error(err);
