@@ -48,6 +48,11 @@ async function userController(server: FastifyInstance) {
         message: "Invalid password",
       });
     }
+
+    reply.code(201).send({
+      status: 201,
+      message: "Login successful",
+    });
   });
 }
 
