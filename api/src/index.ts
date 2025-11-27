@@ -14,6 +14,7 @@ import {
 import { db } from "./db";
 
 import futsalController from "./modules/futsals/controllers";
+import userController from "./modules/users/controllers";
 
 async function main() {
   const server = fastify();
@@ -25,6 +26,8 @@ async function main() {
   });
 
   server.register(futsalController, { prefix: "futsals" });
+
+  server.register(userController, { prefix: "users" });
   // -----------------------------
   // TIME SLOTS & BOOKINGS
   // -----------------------------
@@ -115,17 +118,6 @@ async function main() {
       status: 201,
       message: "Booking created successfully",
       data: booking[0],
-    });
-  });
-
-  server.post("/users", async (request, reply) => {
-    const userInput = request.body as typeof usersTable.$inferInsert;
-    const user = await db.insert(usersTable).values(userInput).returning();
-
-    reply.code(201).send({
-      status: 201,
-      message: "user registred successfully.",
-      // data: user,
     });
   });
 
