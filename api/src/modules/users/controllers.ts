@@ -1,6 +1,11 @@
 import type { FastifyInstance } from "fastify";
 import { usersTable } from "../../db/schema";
-import { createUser, getUserByEmail } from "./model";
+import {
+  comparePassword,
+  createUser,
+  getUserByEmail,
+  hashPassword,
+} from "./model";
 
 async function userController(server: FastifyInstance) {
   server.post("/", async (request, reply) => {
@@ -18,6 +23,10 @@ async function userController(server: FastifyInstance) {
         message: "Email already registered",
       });
     }
+
+    const hashedPassword = await hashPassword(userInput.password);
+
+    userInput.password = hashedPassword;
 
     const user = await createUser(userInput);
 
@@ -42,7 +51,12 @@ async function userController(server: FastifyInstance) {
       });
     }
 
-    if (user.password !== userInput.password) {
+    const isPasswordValid = await comparePassword(
+      userInput.password,
+      user.password
+    );
+
+    if (!isPasswordValid) {
       return reply.code(401).send({
         status: 401,
         message: "Invalid password",
