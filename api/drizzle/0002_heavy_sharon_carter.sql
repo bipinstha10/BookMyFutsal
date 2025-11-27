@@ -1,1 +1,0 @@
-ALTER TABLE "futsals" RENAME COLUMN "timestamp" TO "createdAt";

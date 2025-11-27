@@ -1,1 +1,0 @@
-ALTER TABLE "futsals" ADD COLUMN "timestamp" timestamp DEFAULT now() NOT NULL;

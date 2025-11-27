@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1755272959185,
-      "tag": "0000_nifty_black_widow",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1755446590381,
-      "tag": "0001_optimal_dreaming_celestial",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1755447177149,
-      "tag": "0002_heavy_sharon_carter",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1755450369068,
-      "tag": "0003_good_madame_web",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1755872061914,
-      "tag": "0004_omniscient_boom_boom",
+      "when": 1764089350239,
+      "tag": "0000_init",
       "breakpoints": true
     }
   ]
