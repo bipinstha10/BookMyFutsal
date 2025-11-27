@@ -1,22 +1,21 @@
 export type Futsal = {
-  id: number,
+  id: number;
   name: string;
   location: string;
   imageURL: string;
 };
 
 export interface FutsalListResponse {
-  data: Futsal[],
-  status: number,
-  message: string
+  data: Futsal[];
+  status: number;
+  message: string;
 }
 
 export interface FutsalResponse {
-  data: Futsal,
-  status: number,
-  message: string
+  data: Futsal;
+  status: number;
+  message: string;
 }
-
 
 export interface Slot {
   id: number;
@@ -48,8 +47,9 @@ export interface BookingResponse {
   data: Booking;
 }
 
+export type FutsalInput = Futsal;
 
-export type FutsalUpdateInput = Partial<Futsal>
+export type FutsalUpdateInput = Partial<Futsal>;
 
 // For updating a booking partially
 export type BookingUpdateInput = Partial<{
@@ -60,3 +60,33 @@ export type BookingUpdateInput = Partial<{
   phone?: string;
   status: string;
 }>;
+
+//users
+export type User = {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+};
+
+export interface UserListResponse {
+  data: User[];
+  status: number;
+  message: string;
+}
+
+export interface UserResponse {
+  data: User;
+  status: number;
+  message: string;
+}
+
+export type UserInput = {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
