@@ -11,12 +11,11 @@ import {
   bookingsTable,
   usersTable,
 } from "./db/schema";
+import { db } from "./db";
+
+import futsalController from "./modules/futsals/controllers";
 
 async function main() {
-  // -----------------------------
-  // Database & Server Setup
-  // -----------------------------
-  const db = drizzle(process.env.DATABASE_URL!);
   const server = fastify();
 
   await server.register(cors, {
@@ -25,94 +24,7 @@ async function main() {
     allowedHeaders: ["Content-Type", "Authorization"],
   });
 
-  // -----------------------------
-  // FUTSALS CRUD ROUTES
-  // -----------------------------
-
-  // Get all futsals
-  server.get("/futsals", async (_, reply) => {
-    const futsals = await db
-      .select()
-      .from(futsalsTable)
-      .orderBy(desc(futsalsTable.createdAt));
-
-    reply.send({
-      status: 200,
-      message: "Success",
-      data: futsals,
-    });
-  });
-
-  // Create futsal
-  server.post("/futsals", async (request, reply) => {
-    const futsalInput = request.body as typeof futsalsTable.$inferInsert;
-    const futsal = await db
-      .insert(futsalsTable)
-      .values(futsalInput)
-      .returning();
-
-    reply.code(201).send({
-      status: 201,
-      message: "Futsal created successfully.",
-      data: futsal,
-    });
-  });
-
-  // Delete futsal
-  server.delete("/futsals/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const numericId = Number(id);
-
-    const futsal = await db
-      .delete(futsalsTable)
-      .where(eq(futsalsTable.id, numericId))
-      .returning();
-
-    reply.send({
-      status: 200,
-      message: "Futsal deleted successfully.",
-      data: futsal,
-    });
-  });
-
-  // Get single futsal
-  server.get("/futsals/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const numericId = Number(id);
-
-    const futsal = await db
-      .select()
-      .from(futsalsTable)
-      .where(eq(futsalsTable.id, numericId));
-
-    reply.send({
-      status: 200,
-      message: "Data fetched successfully.",
-      data: futsal[0],
-    });
-  });
-
-  // Update futsal
-  server.put("/futsals/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const numericId = Number(id);
-
-    const { name, location, imageURL } =
-      request.body as typeof futsalsTable.$inferInsert;
-
-    const futsal = await db
-      .update(futsalsTable)
-      .set({ name, location, imageURL })
-      .where(eq(futsalsTable.id, numericId))
-      .returning();
-
-    reply.send({
-      status: 200,
-      message: "Futsal updated successfully.",
-      data: futsal[0],
-    });
-  });
-
+  server.register(futsalController, { prefix: "futsals" });
   // -----------------------------
   // TIME SLOTS & BOOKINGS
   // -----------------------------
