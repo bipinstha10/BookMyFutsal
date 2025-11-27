@@ -14,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^11.1.0",
+    "argon2": "^0.44.0",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.7",
     "drizzle-seed": "^0.3.1",
