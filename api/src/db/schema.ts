@@ -1,4 +1,12 @@
-import { timestamp, integer, pgTable, varchar, time, date } from "drizzle-orm/pg-core";
+import {
+  timestamp,
+  integer,
+  serial,
+  pgTable,
+  varchar,
+  time,
+  date,
+} from "drizzle-orm/pg-core";
 
 export const futsalsTable = pgTable("futsals", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -20,7 +28,7 @@ export const bookingsTable = pgTable("bookings", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   futsalId: integer("futsal_id")
     .notNull()
-    .references(() => futsalsTable.id, {onDelete: "cascade"}),
+    .references(() => futsalsTable.id, { onDelete: "cascade" }),
   timeSlotId: integer("time_slot_id")
     .notNull()
     .references(() => timeSlotsTable.id),
@@ -29,4 +37,14 @@ export const bookingsTable = pgTable("bookings", {
   phone: varchar("phone", { length: 50 }),
   status: varchar("status", { length: 50 }).default("booked"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const usersTable = pgTable("users", {
+  id: serial().primaryKey(),
+  name: varchar({ length: 255 }).notNull(),
+  phone: varchar({ length: 25 }),
+  email: varchar({ length: 255 }).notNull().unique(),
+  password: varchar({ length: 255 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
