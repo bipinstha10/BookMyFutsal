@@ -16,7 +16,6 @@ export default function FutsalForm({
   const [createFutsal] = usePostFutsalsMutation();
   const [updateFutsal] = useUpdateFutsalsMutation();
 
-  console.log(futsal);
   const {
     register,
     handleSubmit,
@@ -32,9 +31,8 @@ export default function FutsalForm({
   });
   const onSubmit: SubmitHandler<FutsalInput> = async (futsalData) => {
     if (futsal) {
-      console.log("first");
       const updatedFutsal = await updateFutsal({
-        id: futsal.id,
+        id: String(futsal.id),
         futsalInput: futsalData,
       });
 
@@ -60,8 +58,8 @@ export default function FutsalForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-8 p-4 border rounded shadow bg-white">
-        <h2 className="text-xl text-green-700 font-semibold mb-4">
+      <div className="p-4 rounded shadow bg-[#0C0C0C]">
+        <h2 className="font-[teko] text-3xl text-white font-semibold mb-4">
           {futsal ? `Edit ${futsal.name}` : "Add new futsal"}
         </h2>
         <div className="flex flex-col gap-3">
@@ -69,23 +67,23 @@ export default function FutsalForm({
             type="text"
             placeholder="Name"
             {...register("name", { required: true })}
-            className="border px-3 py-2 rounded w-full placeholder-gray-700 text-black"
+            className="text-sm bg-[#1e1e1e] border-0 outline-0 p-2 mb-6"
           />
           <input
             type="text"
             placeholder="Location"
             {...register("location", { required: true })}
-            className="border px-3 py-2 rounded w-full placeholder-gray-700 text-black"
+            className="text-sm bg-[#1e1e1e] border-0 outline-0 p-2 mb-6"
           />
           <input
             type="text"
             placeholder="Image URL"
             {...register("imageURL", { required: true })}
-            className="border px-3 py-2 rounded w-full placeholder-gray-700 text-black"
+            className="text-sm bg-[#1e1e1e] border-0 outline-0 p-2 mb-6"
           />
           <button
             type="submit"
-            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-500 transition cursor-pointer"
+            className="cursor-pointer bg-[#24cfa6] text-black p-1 rounded ml-[70%]"
           >
             {futsal ? "Edit" : "Add"}
           </button>
