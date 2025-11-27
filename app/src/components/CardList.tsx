@@ -20,10 +20,9 @@ const CardList = () => {
         <div className="px-6 py-4 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 justify-items-center">
             {futsals?.map((futsal) => (
-              <div className="w-full max-w-md">
+              <div key={futsal.id} className="w-full max-w-md">
                 {" "}
                 <Card
-                  key={futsal.id}
                   imageURL={futsal.imageURL}
                   name={futsal.name}
                   location={futsal.location}

@@ -9,28 +9,6 @@ const SignIn = () => {
       <div className="w-full max-w-md">
         <div className="items-left mb-10">
           <h1 className="font-[teko] text-5xl mb-5">Sign In</h1>
-          {/* <div className="flex gap-8">
-            <p
-              onClick={() => setFormType("signin")}
-              className={`cursor-pointer ${
-                formType === "phone"
-                  ? "underline underline-offset-2 decoration-[#24cfa6]"
-                  : "text-gray-500"
-              }`}
-            >
-              Phone
-            </p>
-            <p
-              onClick={() => setFormType("email")}
-              className={`cursor-pointer ${
-                formType === "email"
-                  ? "underline underline-offset-2 decoration-[#24cfa6]"
-                  : "text-gray-500"
-              }`}
-            >
-              Email
-            </p>
-          </div> */}
         </div>
 
         <Form type="signin" />

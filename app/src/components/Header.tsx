@@ -25,7 +25,13 @@ const Header = () => {
 
   return (
     <>
-      <header className={`shadow w-[100vw] h-[4.5rem] bg-green-700 ${hidden ? "-translate-y-full top-0" : "translate-y-0 top-4"} duration-500 ease-in-out`}>
+      <header
+        className={`
+        fixed left-0 z-50 w-full h-[4.5rem] backdrop-blur-md shadow
+        transition-transform duration-500 ease-in-out
+        ${hidden ? "-translate-y-full" : "translate-y-0"}
+      `}
+      >
         <Navbar />
       </header>
     </>
