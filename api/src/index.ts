@@ -2,20 +2,14 @@ import fastify from "fastify";
 import cors from "@fastify/cors";
 import "dotenv/config";
 
-import { drizzle } from "drizzle-orm/node-postgres";
-import { desc, eq, and } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
-import {
-  futsalsTable,
-  timeSlotsTable,
-  bookingsTable,
-  usersTable,
-} from "./db/schema";
+import { bookingsTable } from "./db/schema";
 import { db } from "./db";
 
-import futsalController from "./modules/futsals/controllers";
-import userController from "./modules/users/controllers";
 import timeSlotController from "./modules/time-slots/controllers";
+import userRoutes from "./modules/users/routes";
+import futsalRoutes from "./modules/futsals/routes";
 
 async function main() {
   const server = fastify();
@@ -26,9 +20,9 @@ async function main() {
     allowedHeaders: ["Content-Type", "Authorization"],
   });
 
-  server.register(futsalController, { prefix: "futsals" });
+  server.register(futsalRoutes, { prefix: "futsals" });
   server.register(timeSlotController, { prefix: "futsals" });
-  server.register(userController, { prefix: "users" });
+  server.register(userRoutes, { prefix: "users" });
 
   // Book a slot
   server.post("/futsals/:id/book", async (request, reply) => {

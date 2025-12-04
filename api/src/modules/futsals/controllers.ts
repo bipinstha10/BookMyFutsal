@@ -1,4 +1,4 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { futsalsTable } from "../../db/schema";
 import {
   createFutsal,
@@ -6,77 +6,82 @@ import {
   getFutsal,
   getFutsals,
   updateFutsal,
-} from "./model";
+} from "./services";
 
-async function futsalController(server: FastifyInstance) {
-  // Get all futsals
-  server.get("/", async (_, reply) => {
-    const futsals = await getFutsals();
+export const getFutsalsHandler = async (
+  _: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const futsals = await getFutsals();
 
-    reply.send({
-      status: 200,
-      message: "Success",
-      data: futsals,
-    });
+  reply.send({
+    status: 200,
+    message: "Success",
+    data: futsals,
   });
+};
+export const getFutsalHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id } = request.params as { id: string };
+  const numericId = Number(id);
 
-  // Create futsal
-  server.post("/", async (request, reply) => {
-    const futsalInput = request.body as typeof futsalsTable.$inferInsert;
+  const futsal = await getFutsal(numericId);
 
-    const futsal = await createFutsal(futsalInput);
-
-    reply.code(201).send({
-      status: 201,
-      message: "Futsal created successfully.",
-      data: futsal,
-    });
+  reply.send({
+    status: 200,
+    message: "Data fetched successfully.",
+    data: futsal[0],
   });
+};
 
-  // Delete futsal
-  server.delete("/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const numericId = Number(id);
+export const createFutsalHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const futsalInput = request.body as typeof futsalsTable.$inferInsert;
 
-    const futsal = await deleteFutsal(numericId);
+  const futsal = await createFutsal(futsalInput);
 
-    reply.send({
-      status: 200,
-      message: "Futsal deleted successfully.",
-      data: futsal,
-    });
+  reply.code(201).send({
+    status: 201,
+    message: "Futsal created successfully.",
+    data: futsal,
   });
+};
 
-  // Get single futsal
-  server.get("/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const numericId = Number(id);
+export const deleteFutsalHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id } = request.params as { id: string };
+  const numericId = Number(id);
 
-    const futsal = await getFutsal(numericId);
+  const futsal = await deleteFutsal(numericId);
 
-    reply.send({
-      status: 200,
-      message: "Data fetched successfully.",
-      data: futsal[0],
-    });
+  reply.send({
+    status: 200,
+    message: "Futsal deleted successfully.",
+    data: futsal,
   });
+};
 
-  // Update futsal
-  server.put("/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const numericId = Number(id);
+export const updateFutalHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id } = request.params as { id: string };
+  const numericId = Number(id);
 
-    const { name, location, imageURL } =
-      request.body as typeof futsalsTable.$inferInsert;
+  const { name, location, imageURL } =
+    request.body as typeof futsalsTable.$inferInsert;
 
-    const futsal = await updateFutsal({ name, location, imageURL }, numericId);
+  const futsal = await updateFutsal({ name, location, imageURL }, numericId);
 
-    reply.send({
-      status: 200,
-      message: "Futsal updated successfully.",
-      data: futsal[0],
-    });
+  reply.send({
+    status: 200,
+    message: "Futsal updated successfully.",
+    data: futsal[0],
   });
-}
-
-export default futsalController;
+};
