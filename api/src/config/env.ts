@@ -1,6 +1,7 @@
+import "dotenv/config";
+import type ms from "ms";
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
-import "dotenv/config";
 
 export const env = createEnv({
   server: {
@@ -8,9 +9,9 @@ export const env = createEnv({
     HOST: z.string().default("0.0.0.0"),
     DATABASE_CONNECTION_URL: z.string(),
     ACCESS_TOKEN_SECRET: z.string(),
-    ACCESS_TOKEN_EXPIRY: z.string(),
+    ACCESS_TOKEN_EXPIRY: z.custom<ms.StringValue>(),
     REFRESH_TOKEN_SECRET: z.string(),
-    REFRESH_TOKEN_EXPIRY: z.string(),
+    REFRESH_TOKEN_EXPIRY: z.custom<ms.StringValue>(),
   },
 
   // Required: tells it where to read env vars from
