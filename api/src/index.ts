@@ -27,9 +27,6 @@ async function main() {
   server.register(bookingRoutes, { prefix: "futsals" });
   server.register(userRoutes, { prefix: "users" });
 
-  console.log("PORT:", env.PORT);
-  console.log("HOST:", env.HOST);
-
   server.listen({ port: env.PORT }, (err, address) => {
     if (err) {
       console.error(err);
