@@ -1,7 +1,9 @@
 import { db } from "../../db";
 import { usersTable } from "../../db/schema";
 import { eq } from "drizzle-orm";
+import { env } from "../../config/env";
 import argon2 from "argon2";
+import jwt from "jsonwebtoken";
 
 export const getUserByEmail = async (email: string) => {
   const [user] = await db
@@ -22,3 +24,29 @@ export const hashPassword = async (password: string) => {
 export const comparePassword = async (password: string, hash: string) => {
   return await argon2.verify(hash, password);
 };
+
+export function generateAccessToken(user: any) {
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    },
+    env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: env.ACCESS_TOKEN_EXPIRY,
+    }
+  );
+}
+
+export function generateRefreshToken(user: any) {
+  return jwt.sign(
+    {
+      id: user.id,
+    },
+    env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: env.REFRESH_TOKEN_EXPIRY,
+    }
+  );
+}
