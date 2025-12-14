@@ -8,6 +8,20 @@
       "when": 1764089350239,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765728746954,
+      "tag": "0001_left_captain_midlands",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765733892545,
+      "tag": "0002_reflective_swordsman",
+      "breakpoints": true
     }
   ]
 }
