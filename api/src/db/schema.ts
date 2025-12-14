@@ -45,6 +45,7 @@ export const usersTable = pgTable("users", {
   phone: varchar({ length: 25 }),
   email: varchar({ length: 255 }).notNull().unique(),
   password: varchar({ length: 255 }).notNull(),
+  refreshToken: varchar({ length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
