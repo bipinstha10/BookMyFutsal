@@ -25,7 +25,24 @@ export const comparePassword = async (password: string, hash: string) => {
   return await argon2.verify(hash, password);
 };
 
-export function generateAccessToken(user: any) {
+export async function updateRefreshToken(
+  id: number,
+  refreshToken: string | null
+) {
+  const [user] = await db
+    .update(usersTable)
+    .set({ refreshToken: refreshToken ?? "" })
+    .where(eq(usersTable.id, id))
+    .returning();
+
+  return user;
+}
+
+export function generateAccessToken(user: {
+  id: number;
+  email: string;
+  name: string;
+}) {
   return jwt.sign(
     {
       id: user.id,
@@ -39,7 +56,7 @@ export function generateAccessToken(user: any) {
   );
 }
 
-export function generateRefreshToken(user: any) {
+export function generateRefreshToken(user: { id: number }) {
   return jwt.sign(
     {
       id: user.id,
