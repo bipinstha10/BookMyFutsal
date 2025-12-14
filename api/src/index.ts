@@ -1,11 +1,18 @@
-import fastify from "fastify";
+import fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import { env } from "./config/env";
 import cors from "@fastify/cors";
-import cookie from "@fastify/cookie";
+import jwt from "@fastify/jwt";
+import cookie, { type FastifyCookieOptions } from "@fastify/cookie";
 import userRoutes from "./modules/users/routes";
 import futsalRoutes from "./modules/futsals/routes";
 import timeSlotRoutes from "./modules/time-slots/routes";
 import bookingRoutes from "./modules/bookings/routes";
+
+declare module "fastify" {
+  export interface FastifyInstance {
+    authenticate: any;
+  }
+}
 
 async function main() {
   const server = fastify();
@@ -16,11 +23,28 @@ async function main() {
     allowedHeaders: ["Content-Type", "Authorization"],
   });
 
-  server.register(cookie, {
-    secret: "bipinstha10",
-    hook: "onRequest",
-    parseOptions: {},
+  server.register(jwt, {
+    secret: "asjdlfjasldjflajsdlfjasldjflasdjf",
   });
+
+  server.decorate(
+    "authenticate",
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      try {
+        await request.jwtVerify();
+      } catch (error) {
+        return reply.send(error);
+      }
+    }
+  );
+
+  server.register(cookie, {
+    secret: "my-secret",
+    parseOptions: {
+      httpOnly: true,
+      secure: true,
+    },
+  } as FastifyCookieOptions);
 
   server.register(futsalRoutes, { prefix: "futsals" });
   server.register(timeSlotRoutes, { prefix: "futsals" });
