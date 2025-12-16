@@ -21,10 +21,21 @@ async function main() {
     origin: ["http://localhost:5173", "http://192.168.18.9:5173"],
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+  });
+
+  server.register(cookie, {
+    secret: "my-secret",
+    hook: "onRequest",
   });
 
   server.register(jwt, {
     secret: "asjdlfjasldjflajsdlfjasldjflasdjf",
+    cookie: {
+      cookieName: "accessToken",
+      signed: false,
+    },
   });
 
   server.decorate(
@@ -33,18 +44,13 @@ async function main() {
       try {
         await request.jwtVerify();
       } catch (error) {
-        return reply.send(error);
+        return reply.code(401).send({
+          status: 401,
+          message: "Unauthorized",
+        });
       }
     }
   );
-
-  server.register(cookie, {
-    secret: "my-secret",
-    parseOptions: {
-      httpOnly: true,
-      secure: true,
-    },
-  } as FastifyCookieOptions);
 
   server.register(futsalRoutes, { prefix: "futsals" });
   server.register(timeSlotRoutes, { prefix: "futsals" });
