@@ -13,6 +13,15 @@ export const getUserByEmail = async (email: string) => {
   return user;
 };
 
+export const getUserById = async (id: number) => {
+  const [user] = await db
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.id, id));
+
+  return user;
+};
+
 export const createUser = async (userInput: typeof usersTable.$inferInsert) => {
   return await db.insert(usersTable).values(userInput).returning();
 };
@@ -66,4 +75,25 @@ export function generateRefreshToken(user: { id: number }) {
       expiresIn: env.REFRESH_TOKEN_EXPIRY,
     }
   );
+}
+
+export async function generateAccessAndRefreshTokens(userId: number) {
+  const user = await getUserById(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const { id, email, name } = user;
+
+  const accessToken = generateAccessToken({ id, email, name });
+
+  const refreshToken = generateRefreshToken({ id });
+
+  await db
+    .update(usersTable)
+    .set({ refreshToken })
+    .where(eq(usersTable.id, id));
+
+  return { accessToken, refreshToken };
 }
