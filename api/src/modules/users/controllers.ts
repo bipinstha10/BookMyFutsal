@@ -3,11 +3,12 @@ import { usersTable } from "../../db/schema";
 import {
   comparePassword,
   createUser,
-  generateAccessToken,
-  generateRefreshToken,
+  generateAccessAndRefreshTokens,
   getUserByEmail,
   hashPassword,
+  updateRefreshToken,
 } from "./services";
+import { cookieOptions } from "../../helpers/cookies";
 
 export const registerUserHandler = async (
   request: FastifyRequest,
@@ -68,19 +69,16 @@ export const loginHandler = async (
       });
     }
 
-    const { id, email, name } = user;
-
-    const accessToken = await generateAccessToken({ id, email, name });
-    const refreshToken = await generateRefreshToken({ id });
-
-    console.log(user);
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+      user.id
+    );
 
     return reply
-      .code(201)
-      .setCookie("accessToken", accessToken)
-      .setCookie("refreshToken", refreshToken)
+      .code(200)
+      .setCookie("accessToken", accessToken, cookieOptions())
+      .setCookie("refreshToken", refreshToken, cookieOptions())
       .send({
-        status: 201,
+        status: 200,
         message: "Login successful",
         data: {
           accessToken,
@@ -90,4 +88,18 @@ export const loginHandler = async (
   } catch (error) {
     reply.code(500).send(error);
   }
+};
+
+export const logoutHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  console.log(request.user);
+  await updateRefreshToken((request.user as any).id, null);
+
+  return reply
+    .code(200)
+    .clearCookie("accessToken", cookieOptions())
+    .clearCookie("refreshToken", cookieOptions())
+    .send({ message: "Logged out successfully" });
 };
